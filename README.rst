@@ -4,6 +4,13 @@ cmsplugin_rst
 
 A plugin for `Django CMS`_, which renders restructured text into html, using docutils.
 
+*****
+Notes
+*****
+
+* Forked from https://github.com/pakal/cmsplugin-rst (forked from https://github.com/ojii ?)
+* some cleanups
+* Added sourcecode Pygments directive support
 
 ************
 Installation
