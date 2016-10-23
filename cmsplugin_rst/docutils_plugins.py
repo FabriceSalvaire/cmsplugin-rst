@@ -1,4 +1,3 @@
-
 import re
 from docutils import nodes, utils
 from docutils.parsers.rst.roles import set_classes, register_local_role
@@ -33,7 +32,7 @@ def djangocms_link_role(name, rawtext, text, lineno, inliner, options={}, conten
     try:
         # beware: draft and published versions of a page may have the same reverse-ID...
         page_lookup = {'reverse_id': reverse_id,
-                       'publisher_is_draft': False}  
+                       'publisher_is_draft': False}
         page = Page.objects.all().get(**page_lookup)
     except Page.DoesNotExist:
         msg = inliner.reporter.error("Targeted reverse ID of published page doesn't exist: %r" % reverse_id, line=lineno)

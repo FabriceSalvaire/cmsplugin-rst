@@ -1,4 +1,3 @@
-
 import re
 from importlib import import_module
 
@@ -13,7 +12,7 @@ from django.utils.safestring import mark_safe
 def get_cfg(key, default):
     return getattr(settings, 'CMSPLUGIN_RST_%s' % key, default)
 
-    
+
 def get_postprocessors():
     funcs = []
     for postprocessor in get_cfg("POSTPROCESSORS", []):
@@ -33,7 +32,7 @@ def postprocess(html):
                 postprocessor(soup)
             return unicode(soup)  # NO prettify(), breaks spacing of tags
     return html
-    
+
 
 # BORROWED FROM https://github.com/Chimrod/typogrify
 def french_insecable(text):
