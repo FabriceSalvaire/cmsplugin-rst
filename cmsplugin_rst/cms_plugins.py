@@ -15,6 +15,10 @@ from .forms import RstPluginForm
 from .models import RstPluginModel
 from .utils import postprocess,  get_cfg, french_insecable
 
+# We register custom docutils directives, roles etc.
+from . import docutils_plugins
+from . import pygments_directive
+
 ####################################################################################################
 
 DOCUTILS_RENDERER_SETTINGS = {
