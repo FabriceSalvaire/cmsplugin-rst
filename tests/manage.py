@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     THIS_DIR = os.path.dirname(os.path.abspath(__file__))
     REPO_ROOT = os.path.dirname(THIS_DIR)
-    sys.path.extend([REPO_ROOT, 
+    sys.path.extend([REPO_ROOT,
                      os.path.join(THIS_DIR, "test_project")])
 
     os.environ.setdefault("DJANGO_TEST_DB_PATH", os.path.join(THIS_DIR, "testdb.sqlite"))

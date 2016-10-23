@@ -3,7 +3,7 @@ version 0.2
 =================
 
 * Add "cmspage" docutils role to get the URL of a djangocms page
-* Add "header_level" field in model, to override initial 
+* Add "header_level" field in model, to override initial
   header level for a specific instance
 * add default settings for docutils renderer
 * add auto replacements for static/media urls, and nbsp/br html elements
