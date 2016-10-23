@@ -19,8 +19,9 @@ def get_cfg(key, default):
 ####################################################################################################
 
 def get_postprocessors():
+
     funcs = []
-    for postprocessor in get_cfg("POSTPROCESSORS", []):
+    for postprocessor in get_cfg('POSTPROCESSORS', []):
         module_name, callable_name = postprocessor.rsplit('.', 1)
         module = import_module(module_name)
         func = getattr(module, callable_name)
@@ -30,19 +31,21 @@ def get_postprocessors():
 ####################################################################################################
 
 def postprocess(html):
+
     if BeautifulSoup:
         postprocessors = get_postprocessors()
         if postprocessors:
             soup = BeautifulSoup(html)
             for postprocessor in postprocessors:
                 postprocessor(soup)
-            return unicode(soup)  # NO prettify(), breaks spacing of tags
+            return unicode(soup) # NO prettify(), breaks spacing of tags
     return html
 
 ####################################################################################################
 
 # BORROWED FROM https://github.com/Chimrod/typogrify
 def french_insecable(text):
+
     """Replace the space between each double sign punctuation by a thin non-breaking space.
 
     This conform with the french typographic rules.

@@ -25,7 +25,7 @@ def djangocms_link_role(name, rawtext, text, lineno, inliner, options={}, conten
     :param content: The directive content for customization.
     """
 
-    from cms.models import Page  # LAZY loading, else troubles on setup
+    from cms.models import Page # LAZY loading, else troubles on setup
 
     result = re.match(r"^(.+) \<(.+)\>$", text)
     #print (">> djangocms_link_role regex result is", result, result.groups() if result else None)
@@ -57,6 +57,7 @@ def djangocms_link_role(name, rawtext, text, lineno, inliner, options={}, conten
         node = nodes.reference(rawtext, name, refuri=ref,
                                **options)
         return [node], []
+
     assert False, "djangocms_link_role buggi implementation"
 
 ####################################################################################################
