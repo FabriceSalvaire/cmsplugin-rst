@@ -37,7 +37,7 @@ To speed up the (potentially heavy) rendering of cmsplugin_rst plugins,
 consider using the cache framework of django.
 
 
-***************
+*************
 Configuration
 *************
 
@@ -70,7 +70,7 @@ CMSPLUGIN_RST_POSTPROCESSORS
     and modify it in-place.
 
 
-***********************************
+*******************************
 Specific Roles and Replacements
 *******************************
 
