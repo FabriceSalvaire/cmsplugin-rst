@@ -1,17 +1,21 @@
 # -*- coding: utf-8 -*-
-from cms.plugin_base import CMSPluginBase
-from cms.plugin_pool import plugin_pool
-from cmsplugin_rst.forms import RstPluginForm
-from cmsplugin_rst.models import RstPluginModel
-from cmsplugin_rst.utils import postprocess
-from django.utils.translation import ugettext_lazy as _
+
+####################################################################################################
+
+from django import template
 from django.conf import settings
 from django.utils.encoding import force_text, force_bytes
 from django.utils.safestring import mark_safe
-from django import template
+from django.utils.translation import ugettext_lazy as _
 
-from .utils import get_cfg, french_insecable
+from cms.plugin_base import CMSPluginBase
+from cms.plugin_pool import plugin_pool
 
+from .forms import RstPluginForm
+from .models import RstPluginModel
+from .utils import postprocess,  get_cfg, french_insecable
+
+####################################################################################################
 
 DOCUTILS_RENDERER_SETTINGS = {
     "initial_header_level": 1,
@@ -25,8 +29,10 @@ DOCUTILS_RENDERER_SETTINGS = {
 }
 DOCUTILS_RENDERER_SETTINGS.update(get_cfg("SETTINGS_OVERRIDES", {}))
 
+####################################################################################################
 
 def restructuredtext(value, header_level=None, report_level=None):
+
     try:
         from docutils.core import publish_parts
     except ImportError:
@@ -44,8 +50,10 @@ def restructuredtext(value, header_level=None, report_level=None):
                               settings_overrides=settings_overrides)
         return force_text(parts["html_body"])
 
+####################################################################################################
 
 def render_rich_text(rst_string, language_code="", header_level=None, report_level=None):
+
     rst = get_cfg("CONTENT_PREFIX", "") + "\n"
     rst += rst_string
     rst += "\n" + get_cfg("CONTENT_SUFFIX", "")
@@ -59,8 +67,10 @@ def render_rich_text(rst_string, language_code="", header_level=None, report_lev
     content = postprocess(content)
     return content
 
+####################################################################################################
 
 class RstPlugin(CMSPluginBase):
+
     name = _('Restructured Text Plugin')
     render_template = 'cms/content.html'
     model = RstPluginModel

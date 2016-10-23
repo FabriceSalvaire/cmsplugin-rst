@@ -1,6 +1,10 @@
-from cmsplugin_rst.models import RstPluginModel, rst_help_text
+####################################################################################################
+
 from django import forms
 
+from .models import RstPluginModel, rst_help_text
+
+####################################################################################################
 
 class RstPluginForm(forms.ModelForm):
 

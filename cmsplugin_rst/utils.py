@@ -1,3 +1,5 @@
+####################################################################################################
+
 import re
 from importlib import import_module
 
@@ -5,13 +7,16 @@ try:
     from BeautifulSoup import BeautifulSoup
 except ImportError:
     BeautifulSoup = None
+
 from django.conf import settings
 from django.utils.safestring import mark_safe
 
+####################################################################################################
 
 def get_cfg(key, default):
     return getattr(settings, 'CMSPLUGIN_RST_%s' % key, default)
 
+####################################################################################################
 
 def get_postprocessors():
     funcs = []
@@ -22,6 +27,7 @@ def get_postprocessors():
         funcs.append(func)
     return funcs
 
+####################################################################################################
 
 def postprocess(html):
     if BeautifulSoup:
@@ -33,11 +39,11 @@ def postprocess(html):
             return unicode(soup)  # NO prettify(), breaks spacing of tags
     return html
 
+####################################################################################################
 
 # BORROWED FROM https://github.com/Chimrod/typogrify
 def french_insecable(text):
-    """Replace the space between each double sign punctuation by a thin
-    non-breaking space.
+    """Replace the space between each double sign punctuation by a thin non-breaking space.
 
     This conform with the french typographic rules.
 

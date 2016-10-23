@@ -1,9 +1,14 @@
+####################################################################################################
+
 import re
+
 from docutils import nodes, utils
 from docutils.parsers.rst.roles import set_classes, register_local_role
 
+####################################################################################################
 
 def djangocms_link_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
+
     """Role to link to a djangocms page, using its reverse-ID.
     Allows the syntax "Name <ref>" like for standard RST links.
 
@@ -19,6 +24,7 @@ def djangocms_link_role(name, rawtext, text, lineno, inliner, options={}, conten
     :param options: Directive options for customization.
     :param content: The directive content for customization.
     """
+
     from cms.models import Page  # LAZY loading, else troubles on setup
 
     result = re.match(r"^(.+) \<(.+)\>$", text)
@@ -52,5 +58,7 @@ def djangocms_link_role(name, rawtext, text, lineno, inliner, options={}, conten
                                **options)
         return [node], []
     assert False, "djangocms_link_role buggi implementation"
+
+####################################################################################################
 
 register_local_role("cmspage", djangocms_link_role)
