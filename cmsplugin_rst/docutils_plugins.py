@@ -9,12 +9,11 @@ from docutils.parsers.rst.roles import set_classes, register_local_role
 
 def djangocms_link_role(name, rawtext, text, lineno, inliner, options={}, content=[]):
 
-    """Role to link to a djangocms page, using its reverse-ID.
-    Allows the syntax "Name <ref>" like for standard RST links.
+    """Role to link to a djangocms page, using its reverse-ID.  Allows the syntax "Name <ref>" like
+    for standard RST links.
 
-    Returns 2 part tuple containing list of nodes to insert into the
-    document and a list of system messages.  Both are allowed to be
-    empty.
+    Returns 2 part tuple containing list of nodes to insert into the document and a list of system
+    messages.  Both are allowed to be empty.
 
     :param name: The role name used in the document.
     :param rawtext: The entire markup snippet, with role.
@@ -23,12 +22,13 @@ def djangocms_link_role(name, rawtext, text, lineno, inliner, options={}, conten
     :param inliner: The inliner instance that called us.
     :param options: Directive options for customization.
     :param content: The directive content for customization.
+
     """
 
     from cms.models import Page # LAZY loading, else troubles on setup
 
     result = re.match(r"^(.+) \<(.+)\>$", text)
-    #print (">> djangocms_link_role regex result is", result, result.groups() if result else None)
+    # print (">> djangocms_link_role regex result is", result, result.groups() if result else None)
     if result:
         name, reverse_id = result.groups()
     else:
@@ -37,8 +37,10 @@ def djangocms_link_role(name, rawtext, text, lineno, inliner, options={}, conten
 
     try:
         # beware: draft and published versions of a page may have the same reverse-ID...
-        page_lookup = {'reverse_id': reverse_id,
-                       'publisher_is_draft': False}
+        page_lookup = {
+            'reverse_id': reverse_id,
+            'publisher_is_draft': False,
+        }
         page = Page.objects.all().get(**page_lookup)
     except Page.DoesNotExist:
         msg = inliner.reporter.error("Targeted reverse ID of published page doesn't exist: %r" % reverse_id, line=lineno)
@@ -54,8 +56,7 @@ def djangocms_link_role(name, rawtext, text, lineno, inliner, options={}, conten
             name = page.get_menu_title()
         ref = page.get_absolute_url()
         set_classes(options)
-        node = nodes.reference(rawtext, name, refuri=ref,
-                               **options)
+        node = nodes.reference(rawtext, name, refuri=ref, **options)
         return [node], []
 
     assert False, "djangocms_link_role buggi implementation"
