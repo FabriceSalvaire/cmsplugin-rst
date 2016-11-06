@@ -40,6 +40,8 @@ DOCUTILS_RENDERER_SETTINGS.update(get_cfg('SETTINGS_OVERRIDES', {}))
 
 ####################################################################################################
 
+# https://docutils.readthedocs.io/en/sphinx-docs/index.html
+
 def restructured_text(value, header_level=None, report_level=None):
 
     if publish_parts is not None:
@@ -47,11 +49,12 @@ def restructured_text(value, header_level=None, report_level=None):
         if header_level is not None: # starts from 1
             settings_overrides['initial_header_level'] = header_level
         if report_level is not None: # starts from 1 too
-            settings_overrides['report_level'] = report_level
+            settings_overrides['report_level'] = 0 # report_level
         parts = publish_parts(source=force_bytes(value),
                               writer_name=get_cfg('WRITER_NAME', 'html4css1'),
                               settings_overrides=settings_overrides)
-        return force_text(parts['html_body'])
+        # http://docutils.sourceforge.net/docs/api/publisher.html
+        return force_text(parts['html_body']) # parts['body_pre_docinfo'] + parts['fragment']
     else:
         if settings.DEBUG:
             raise template.TemplateSyntaxError("Error in 'restructuredtext' filter: "
