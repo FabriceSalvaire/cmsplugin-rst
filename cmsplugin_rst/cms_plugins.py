@@ -12,7 +12,7 @@ from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
 from .forms import RstPluginForm
-from .models import RstPluginModel
+from .models import RstPluginModel, RstImage
 from .utils import postprocess, get_cfg, french_insecable
 
 try:
@@ -21,6 +21,7 @@ try:
     # We register custom docutils directives, roles etc.
     from . import docutils_plugins
     from . import pygments_directive
+    from . import cms_directive
 except ImportError:
     publish_parts = None
 
@@ -84,16 +85,53 @@ def render_rich_text(rst_string, language_code='', header_level=None, report_lev
 
 ####################################################################################################
 
+class RstImagePlugin(CMSPluginBase):
+
+    model = RstImage
+    name = _("RST Image")
+    require_parent = True
+    parent_classes = ['RstPlugin']
+    render_plugin = False
+    # render_template = "cmsplugin_svg/plugin.html"
+
+    # Editor fieldsets
+    fieldsets = (
+        (None, {
+            'fields': ('svg_image',
+                       'tag_type',
+                       'height', 'width',
+                       'alignment',
+                       'caption_text',
+                       'alt_text')
+        }),
+        (_('Advanced Settings'), {
+            'classes': ('collapse',),
+            'fields': (
+                'additional_class_names',
+                'label',
+                'id_name',
+            ),
+        }),
+    )
+
+####################################################################################################
+
 class RstPlugin(CMSPluginBase):
 
     name = _('Restructured Text Plugin')
     render_template = 'cms/content.html'
     model = RstPluginModel
     form = RstPluginForm
+    allow_children = True
+    child_classes = ['RstImagePlugin']
 
     ##############################################
 
     def render(self, context, instance, placeholder):
+
+        if instance.child_plugin_instances is not None:
+            for i in instance.child_plugin_instances:
+                print("child", i, type(i))
 
         # We lookup cms page language, else i18n language
         language_code = context.get('lang', '') or context.get('LANGUAGE_CODE', '')
@@ -106,4 +144,5 @@ class RstPlugin(CMSPluginBase):
 
 ####################################################################################################
 
+plugin_pool.register_plugin(RstImagePlugin)
 plugin_pool.register_plugin(RstPlugin)
